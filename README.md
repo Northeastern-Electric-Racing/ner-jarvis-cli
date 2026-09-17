@@ -51,46 +51,58 @@ carrying a back-compatibility tax.
 
 ## Install
 
-> **Status (v0.1.0):** the binaries are released from this repo. It is still
-> **private** and the npm package is **unpublished**, so installing needs repo
-> access for now. See "Distribution isn't open yet" below.
+No GitHub account, no org membership, and no `gh` needed — the repo and its
+release assets are public.
 
-**Single binary** — needs `gh` authenticated as someone with access to this repo:
+**macOS / Linux:**
 
 ```sh
 case "$(uname -s)" in Darwin) os=darwin;; Linux) os=linux;; *) echo "unsupported"; exit 1;; esac
 case "$(uname -m)" in arm64|aarch64) arch=arm64;; x86_64|amd64) arch=x64;; *) echo "unsupported"; exit 1;; esac
-gh release download v0.1.0 --repo Northeastern-Electric-Racing/ner-jarvis-cli \
-  --pattern "ner-jarvis-bun-$os-$arch" --output ner-jarvis --clobber
+curl -fsSL -o ner-jarvis \
+  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.0/ner-jarvis-bun-$os-$arch"
 chmod +x ner-jarvis && ./ner-jarvis
 ```
 
-On **Windows** (PowerShell):
+To keep it on your `PATH` instead of the current folder, swap the last line for
+`mkdir -p ~/.local/bin && mv ner-jarvis ~/.local/bin/ && ner-jarvis`.
+
+**Windows (PowerShell):**
 
 ```powershell
-gh release download v0.1.0 --repo Northeastern-Electric-Racing/ner-jarvis-cli `
-  --pattern "ner-jarvis-bun-windows-x64.exe" --output ner-jarvis.exe --clobber
+Invoke-WebRequest -OutFile ner-jarvis.exe `
+  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.0/ner-jarvis-bun-windows-x64.exe"
 .\ner-jarvis.exe
 ```
 
-**npx** (Node ≥ 18) — *not yet available; see below*:
+Running it with no arguments starts the interactive setup. It prompts before each
+step, and `ner-jarvis undo` reverses a run precisely.
+
+**npx** (Node ≥ 18) — *not published yet, see below*:
 
 ```sh
 npx ner-jarvis@latest
 ```
 
-### Distribution isn't open yet
+### Platforms
 
-A new member cannot install this today. Any one of these unblocks it:
-
-| Unblock | What it enables |
+| Platform | Asset |
 |---|---|
-| Set the `NPM_TOKEN` repo secret, re-run the release's `npm` job | `npx ner-jarvis@latest` works for everyone |
-| Make this repo public, or grant members read access | the `gh release download` above works |
-| ~~Transfer to `Northeastern-Electric-Racing`~~ | **done** — this repo is org-owned, and the workspace it clones (`ner-jarvis-context`) is public |
+| macOS (Apple Silicon) | `ner-jarvis-bun-darwin-arm64` |
+| macOS (Intel) | `ner-jarvis-bun-darwin-x64` |
+| Linux x64 | `ner-jarvis-bun-linux-x64` |
+| Linux arm64 | `ner-jarvis-bun-linux-arm64` |
+| Windows x64 | `ner-jarvis-bun-windows-x64.exe` |
 
-Until then an unauthenticated download 404s, and so does a plain `curl` — a private
-release asset is not fetchable without a token.
+Each is a standalone binary with the skills payload compiled in — no runtime, no
+`node_modules`, no network fetch at install time.
+
+### Still to do: npm
+
+`npx ner-jarvis@latest` is the one install path that doesn't work yet. It needs the
+`NPM_TOKEN` repository secret set; until then the release's `npm` job builds the
+bundle, reports the skip, and stays green. Setting it and re-running that job is all
+that's required — the binaries above are unaffected either way.
 
 ### Build from source
 
