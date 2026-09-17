@@ -1,0 +1,8 @@
+{
+  "version": "0.0.3",
+  "installedAt": "2026-06-01T00:00:00Z",
+  "updatedAt": "2026-06-15T00:00:00Z",
+  "skills": [{ "name": "ner-onboard", "hash": "deadbeef" }],
+  "marketplaces": [{ "name": "claude-plugins-official", "source": "anthropics/claude-plugins-official" }],
+  "sources": [{ "name": "slack", "type": "plugin", "marketplace": "claude-plugins-official", "plugin": "slack" }]
+}

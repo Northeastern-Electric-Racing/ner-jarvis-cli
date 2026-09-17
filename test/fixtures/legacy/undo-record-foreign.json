@@ -1,0 +1,10 @@
+{
+  "undoSchemaVersion": 1,
+  "runId": "2026-06-01T00-00-00.000Z-setup",
+  "version": "0.0.3",
+  "command": "setup",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "installed": [
+    { "kind": "legacy-thing-a-newer-binary-does-not-understand", "payload": { "opaque": true } }
+  ]
+}

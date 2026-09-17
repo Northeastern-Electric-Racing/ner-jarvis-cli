@@ -1,0 +1,24 @@
+{
+  "name": "ner-jarvis",
+  "version": "0.1.0",
+  "description": "CLI that configures Claude Code for Northeastern Electric Racing's software team — installs NER's skills and connects its data sources.",
+  "type": "module",
+  "bin": {
+    "ner-jarvis": "./dist/index.js"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "bun test --timeout 30000",
+    "embed": "bun run scripts/embed-payload.ts",
+    "build:binary": "bun run scripts/build.ts binary",
+    "build:npm": "bun run scripts/build.ts npm"
+  },
+  "devDependencies": {
+    "bun-types": "^1.3.14"
+  }
+}

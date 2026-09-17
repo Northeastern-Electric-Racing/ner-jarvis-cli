@@ -1,0 +1,33 @@
+# Env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Build output
+dist/
+build/
+
+# Generated at build time by `bun run embed` — never committed.
+src/payload.generated.ts
+
+# Node
+node_modules/
+.next/
+.turbo/
+.cache/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Local data / indexes
+data/
+*.sqlite
+*.duckdb

@@ -1,0 +1,98 @@
+{
+  "state": {
+    "version": 1,
+    "sig": {
+      "installedAt": "string",
+      "marketplaces": [
+        {
+          "name": "string",
+          "source": "string"
+        }
+      ],
+      "migrationLevel": "number",
+      "skills": [
+        {
+          "hash": "string",
+          "name": "string"
+        }
+      ],
+      "sources": [
+        {
+          "marketplace": "string",
+          "name": "string",
+          "plugin": "string",
+          "type": "string"
+        }
+      ],
+      "stateSchemaVersion": "number",
+      "updatedAt": "string",
+      "version": "string"
+    }
+  },
+  "undoRecord": {
+    "version": 1,
+    "sig": {
+      "command": "string",
+      "createdAt": "string",
+      "installed": [
+        {
+          "installedHash": "string",
+          "kind": "string",
+          "name": "string",
+          "priorFiles": [
+            {
+              "contents": "string",
+              "path": "string"
+            }
+          ]
+        }
+      ],
+      "runId": "string",
+      "undoSchemaVersion": "number",
+      "version": "string"
+    }
+  },
+  "undoIndex": {
+    "version": 1,
+    "sig": {
+      "entries": [
+        {
+          "binaryPath": "string",
+          "command": "string",
+          "createdAt": "string",
+          "npxVersion": "string",
+          "recordPath": "string",
+          "runId": "string",
+          "undone": "boolean",
+          "version": "string"
+        }
+      ],
+      "indexSchemaVersion": "number"
+    }
+  },
+  "staleReport": {
+    "sig": {
+      "blockedMe": "boolean",
+      "dimension": "number",
+      "id": "string",
+      "reporter": "string",
+      "sent": {
+        "at": "string",
+        "ref": "string",
+        "sink": "string"
+      },
+      "staleSchemaVersion": "number",
+      "successor": "string",
+      "target": {
+        "kind": "string",
+        "title": "string",
+        "url": "string"
+      },
+      "toolVersion": "string",
+      "ts": "string",
+      "verdict": "string",
+      "whatIsTrue": "string",
+      "whatIsWrong": "string"
+    }
+  }
+}

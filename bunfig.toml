@@ -1,0 +1,4 @@
+[test]
+# Baseline every test run to a throwaway HOME so tests never touch the real
+# ~/.claude. See test/preload.ts.
+preload = ["./test/preload.ts"]

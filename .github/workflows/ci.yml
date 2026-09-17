@@ -1,0 +1,51 @@
+# CI: cross-platform build + test for the ner-jarvis CLI.
+#
+# Note: src/payload.generated.ts is git-ignored, so a fresh checkout does not
+# have it. `bun test` imports it (via loadPayload), so we MUST run `bun run embed`
+# BEFORE `bun test` and before any build. (The build scripts embed internally too,
+# but the standalone test step needs the explicit embed first.)
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.2
+
+      - name: Install dependencies
+        run: bun install
+
+      # payload.generated.ts is git-ignored — generate it before test/build.
+      - name: Embed payload
+        run: bun run embed
+
+      # --timeout: the default 5s is too tight on windows-latest, where each
+      # `claude` spawn costs a few hundred ms and a full setup run makes dozens.
+      - name: Test
+        run: bun test --timeout 30000
+
+      - name: Build host binary
+        run: bun run build:binary
+
+      # Cross-platform smoke test: the host binary is always dist/ner-jarvis
+      # (no `.exe` suffix, even on Windows). `shell: bash` makes the same
+      # command work on ubuntu, macos, and windows runners.
+      - name: Smoke test built binary
+        shell: bash
+        run: |
+          version="$(./dist/ner-jarvis --version)"
+          echo "ner-jarvis --version -> $version"
+          if [ -z "$version" ]; then
+            echo "::error::--version printed nothing"
+            exit 1
+          fi

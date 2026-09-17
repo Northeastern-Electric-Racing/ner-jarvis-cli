@@ -1,0 +1,13 @@
+{
+  "indexSchemaVersion": 1,
+  "entries": [
+    {
+      "runId": "2026-06-01T00-00-00.000Z-setup",
+      "version": "0.0.3",
+      "command": "setup",
+      "createdAt": "2026-06-01T00:00:00.000Z",
+      "recordPath": "2026-06-01T00-00-00.000Z-setup.json",
+      "npxVersion": "0.0.3"
+    }
+  ]
+}

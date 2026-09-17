@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NER Onboarding Agent — Where We Left Off</title>
+<style>
+:root{
+  --paper:#f5f1e8; --paper-2:#eee8d9; --paper-3:#e7dfcc;
+  --ink:#211d16; --ink-soft:#5f5847; --ink-faint:#8a8270;
+  --rule:#d9d0bb; --rule-dark:#b9ae93;
+  --crimson:#9e1b32; --crimson-deep:#701226;
+  --amber:#9a6110; --moss:#48663a; --moss-wash:#e4ead9; --plum:#5d3a66;
+  --serif:"Iowan Old Style","Palatino Nova",Palatino,"Book Antiqua","URW Palladio L",Georgia,serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 15% -5%, rgba(158,27,50,.045), transparent 60%),
+    radial-gradient(900px 500px at 110% 8%, rgba(93,58,102,.04), transparent 55%),
+    var(--paper);
+  color:var(--ink); font-family:var(--serif); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.tape{height:8px;background:repeating-linear-gradient(-55deg,var(--crimson) 0 14px,var(--ink) 14px 17px,var(--paper) 17px 20px,var(--crimson) 20px 34px)}
+a{color:var(--crimson-deep);text-decoration-color:rgba(158,27,50,.35);text-underline-offset:2px}
+a:hover{color:var(--crimson)}
+.wrap{max-width:1020px;margin:0 auto;padding:0 28px}
+code,.mono{font-family:var(--mono);font-size:.88em}
+code{background:var(--paper-2);padding:1px 5px;border-radius:3px;border:1px solid var(--rule)}
+
+/* masthead */
+.masthead{padding:44px 0 0;border-bottom:3px double var(--rule-dark)}
+.kicker{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+.kicker::after{content:"";flex:1;height:1px;background:var(--rule-dark)}
+.kicker .dot{width:9px;height:9px;background:var(--crimson);border-radius:50%;flex:none}
+h1{font-size:clamp(32px,5.2vw,54px);line-height:1.03;margin:18px 0 10px;font-weight:600;letter-spacing:-.015em}
+h1 em{font-style:italic;color:var(--crimson)}
+.standfirst{max-width:64ch;color:var(--ink-soft);font-size:17px;margin:0 0 8px}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em;display:flex;flex-wrap:wrap;gap:6px 22px;margin:14px 0 26px}
+.meta b{color:var(--ink-soft);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--rule-dark)}
+.stat{padding:16px 14px 20px;border-right:1px solid var(--rule);animation:rise .5s both}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-size:34px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{display:block;margin-top:7px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.stat.red b{color:var(--crimson)} .stat.green b{color:var(--moss)} .stat.plum b{color:var(--plum)} .stat.amber b{color:var(--amber)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.stat:nth-child(1){animation-delay:.05s}.stat:nth-child(2){animation-delay:.12s}
+.stat:nth-child(3){animation-delay:.19s}.stat:nth-child(4){animation-delay:.26s}
+.stat:nth-child(5){animation-delay:.33s}
+
+/* sections */
+section{padding:38px 0 6px;border-bottom:1px solid var(--rule)}
+h2{font-size:26px;margin:0 0 4px;font-weight:600;letter-spacing:-.01em}
+h2 .num{font-family:var(--mono);font-size:12px;color:var(--crimson);letter-spacing:.18em;display:block;margin-bottom:8px}
+.lede{color:var(--ink-soft);max-width:70ch;margin:0 0 22px}
+
+/* shipped cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin:0 0 8px}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-top:3px solid var(--moss);padding:16px 18px 18px}
+.card h3{margin:0 0 3px;font-size:18px;font-weight:600}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:10px}
+.card ul{margin:0;padding-left:18px}
+.card li{margin:0 0 7px;font-size:14.5px;color:var(--ink-soft)}
+.card li b{color:var(--ink);font-weight:600}
+.card.wip{border-top-color:var(--amber);background:var(--paper-3)}
+
+/* timeline */
+.tl{list-style:none;margin:0 0 14px;padding:0;border-left:2px solid var(--rule-dark);margin-left:8px}
+.tl li{position:relative;padding:0 0 16px 22px}
+.tl li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--rule-dark)}
+.tl li.hot::before{background:var(--crimson);border-color:var(--crimson)}
+.tl .d{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);text-transform:uppercase}
+.tl .t{font-weight:600}
+.tl .s{color:var(--ink-soft);font-size:14.5px}
+
+/* next steps */
+.step{display:grid;grid-template-columns:38px 1fr auto;gap:16px;align-items:start;padding:15px 0;border-bottom:1px dotted var(--rule-dark)}
+.step:last-child{border-bottom:0}
+.step .n{font-family:var(--mono);font-size:22px;color:var(--rule-dark);font-weight:600;line-height:1.2;padding-top:1px}
+.step h4{margin:0 0 5px;font-size:17px;font-weight:600}
+.step p{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:74ch}
+.pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;padding:4px 9px;border:1px solid;border-radius:2px;white-space:nowrap;align-self:center}
+.p-now{color:var(--crimson-deep);border-color:var(--crimson);background:rgba(158,27,50,.07)}
+.p-repo{color:var(--plum);border-color:var(--plum);background:rgba(93,58,102,.07)}
+.p-up{color:var(--amber);border-color:var(--amber);background:rgba(154,97,16,.08)}
+.p-ship{color:var(--moss);border-color:var(--moss);background:var(--moss-wash)}
+
+/* callout */
+.callout{background:var(--paper-3);border:1px solid var(--rule-dark);border-left:4px solid var(--crimson);padding:16px 20px;margin:0 0 24px}
+.callout h3{margin:0 0 6px;font-size:16px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--crimson-deep)}
+.callout p{margin:0 0 6px;color:var(--ink-soft);font-size:15px}
+.files{font-family:var(--mono);font-size:12.5px;color:var(--ink);margin-top:8px}
+.files div{padding:2px 0}
+.files .m{color:var(--amber)} .files .u{color:var(--plum)}
+
+footer{padding:26px 0 46px;color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}.stat{border-bottom:1px solid var(--rule)}.step{grid-template-columns:28px 1fr}.pill{grid-column:2;justify-self:start;margin-top:6px}}
+</style>
+</head>
+<body>
+<div class="tape"></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker"><span class="dot"></span>Northeastern Electric Racing · Software · Status Recap</div>
+    <h1>Where we <em>left off</em></h1>
+    <p class="standfirst">Three tracks of work on <code>bracyw/ner-onboarding-agent</code>: the <b>ner-jarvis</b> installer, the <b>five NER skills</b> grounded in a roster, and the <b>staleness audit</b> that turned into a Confluence consolidation proposal. The installer is done and tested. The audit is where the thread was cut mid-sentence.</p>
+    <div class="meta">
+      <span><b>Repo</b> bracyw/ner-onboarding-agent · main</span>
+      <span><b>Last commit</b> 50c62cf — ship ner-roster grounding truth</span>
+      <span><b>Last touched</b> 2026-07-19</span>
+      <span><b>Recapped</b> 2026-09-05</span>
+    </div>
+    <div class="stats">
+      <div class="stat green"><b>237</b><span>CLI tests passing</span></div>
+      <div class="stat green"><b>6</b><span>skills shipped</span></div>
+      <div class="stat plum"><b>3</b><span>files uncommitted</span></div>
+      <div class="stat red"><b>15</b><span>open staleness items</span></div>
+      <div class="stat amber"><b>7 wks</b><span>since last touch</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="num">01 — DONE</span>What's shipped</h2>
+    <p class="lede">All three tracks have real, working output on <code>main</code>. Nothing here is speculative — the CLI test suite runs clean (237 pass / 0 fail, verified today) and the skills are the canonical copy the CLI embeds.</p>
+    <div class="cards">
+
+      <div class="card">
+        <h3>ner-jarvis CLI</h3>
+        <span class="tag">cli/ · Bun · v0.1.0 · complete</span>
+        <ul>
+          <li><b>One-command setup</b> — installs the 5 skills into <code>~/.claude/skills/</code>, installs Slack + Atlassian plugins, guides <code>gh auth login</code>, clones the workspace repo, opens Claude Code.</li>
+          <li><b>Diff-aware wizard</b> — shows status, prompts only on real changes; auth-aware source status (<code>needs-auth → /mcp</code>); recognizes installed plugins by id (no re-prompt loop).</li>
+          <li><b>Versioned everything</b> — every persisted shape carries a schema level; a snapshot guard fails CI on un-migrated changes.</li>
+          <li><b>Undo journal + per-version rollback</b> — each run records what it installed and what it overwrote; foreign versions delegate to their archived binary, GC'd when fully undone.</li>
+          <li><b>Contract-first</b> — <code>behavior.md</code> is the language-agnostic spec; 4 ADRs recorded.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>The five skills + roster</h3>
+        <span class="tag">skills/ · canonical payload</span>
+        <ul>
+          <li><code>ner-setup</code> · <code>ner-onboard</code> · <code>ner-ask</code> · <code>ner-repo-explainer</code> · <code>ner-escalation-router</code></li>
+          <li><b>ner-roster</b> — <code>roster.json</code> (asOf Fall 2026) is the grounding truth for area → subteam → head/leads, with a query API (<code>roster heads</code>, <code>roster leads &lt;subteam&gt;</code>).</li>
+          <li><b>No hardcoded names</b> — verified by grep. Structure comes from the roster; people resolve live against GitHub + Confluence, because roles rotate yearly.</li>
+          <li><code>ner-onboard</code> now offers "not sure" and gates onboarding on auth.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Staleness audit</h3>
+        <span class="tag">docs/ · 6 investigations · 2026-07-13</span>
+        <ul>
+          <li><b>An 8-dimension rubric</b> (leadership currency, org structure, glossary⇄GitHub drift, dead links, Slack currency, onboarding viability…) — reusable on any org's docs.</li>
+          <li><b>Two onboarding dry-runs + four per-area audits + a 39-page read-only Confluence sweep.</b></li>
+          <li><b>CLAUDE.md bucket fully fixed</b> — four subteams (Software Product added), FinishLine/App-Software split apart, <code>Pythia</code>/<code>Salamander</code>/<code>h5-projects-rs</code> added, archived Slack channels swapped for <code>#tech-support</code>.</li>
+          <li><b>Published proposal</b> → <a href="https://bracyw.github.io/PublicPages/ner-confluence-consolidation/">bracyw.github.io/PublicPages/ner-confluence-consolidation/</a></li>
+        </ul>
+      </div>
+
+      <div class="card wip">
+        <h3>Confluence consolidation — reopened</h3>
+        <span class="tag">in flight · stopped mid-design</span>
+        <ul>
+          <li><b>Settled 07-18:</b> fully annual — <code>NER2X/Software/{Firmware, App Software, FinishLine, Product}</code>, onboarding per subteam, a Shared Resources folder that <i>moves</i> forward so page IDs survive.</li>
+          <li><b>Reopened 07-19</b> ("start fresh, high level"): everything not kept moves to a top-level <code>Archive</code> folder via plain moves — no paid archive feature needed.</li>
+          <li><b>Left unresolved:</b> archive <i>purpose</i> and <i>trigger</i> were never discussed. Proposed unit = the subteam's year branch. Six rules on the page are now five.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02 — THE TREE</span>State of the working copy</h2>
+    <div class="callout">
+      <h3>Seven weeks of work is uncommitted</h3>
+      <p>The CLAUDE.md rewrite and both audit artifacts have been sitting dirty since July 19. Everything else is on <code>main</code>. Nothing is lost, but nothing is backed up either.</p>
+      <div class="files">
+        <div class="m">M &nbsp;CLAUDE.md &nbsp;<span style="color:var(--ink-faint)">— roster-grounded org model, four subteams, repo glossary rewrite</span></div>
+        <div class="u">?? docs/onboarding-staleness.md &nbsp;<span style="color:var(--ink-faint)">— 21 KB running backlog + the rubric</span></div>
+        <div class="u">?? docs/staleness-dashboard.html &nbsp;<span style="color:var(--ink-faint)">— the published proposal's source of truth</span></div>
+      </div>
+    </div>
+    <p class="lede">One stale fact worth fixing while you're in there: <code>CLAUDE.md</code> says the CLI has <b>185 tests</b>. It has <b>237</b>.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">03 — HOW WE GOT HERE</span>Timeline</h2>
+    <ul class="tl">
+      <li><span class="d">May 15</span><div class="t">Architecture chosen</div><div class="s">MCP-per-developer via Claude Code, no shared backend. Per-user auth is load-bearing — no service account, no flattened permissions.</div></li>
+      <li><span class="d">May 25</span><div class="t">PRD filed (issue #1, still open)</div><div class="s">v1 Software Bundle — five skills, per-skill ZIP distribution, docs rewrite.</div></li>
+      <li><span class="d">Jul 07</span><div class="t">Two-repo topology consolidated</div><div class="s">CLI + payload live in onboarding-agent; <code>bracyw/ner-jarvis</code> becomes the lean workspace repo the CLI clones.</div></li>
+      <li><span class="d">Jul 08</span><div class="t">Versioning + rollback complete</div><div class="s">Migration framework, undo journal, per-version binary delegation.</div></li>
+      <li><span class="d">Jul 12–13</span><div class="t">Roster grounding + the audit</div><div class="s"><code>roster.json</code> ships; skills reground on it; six investigations produce the staleness backlog; CLAUDE.md's whole bucket gets fixed.</div></li>
+      <li><span class="d">Jul 14</span><div class="t">Proposal published</div><div class="s">Dashboard copied to <code>bracyw/PublicPages</code> under GitHub Pages.</div></li>
+      <li class="hot"><span class="d">Jul 18–19</span><div class="t">Target design settled, then reopened</div><div class="s">The annual model landed; the archiving model was torn back down to a placeholder. <b>This is the cut point.</b></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">04 — NEXT</span>Where to pick it up</h2>
+    <p class="lede">Ordered by what unblocks the most. The first one takes five minutes; the second is the one that actually needs your judgment.</p>
+
+    <div class="step">
+      <div class="n">1</div>
+      <div><h4>Commit the working tree</h4><p>The CLAUDE.md rewrite plus both docs. Fix the 185→237 test count in the same commit. Pure housekeeping, but seven weeks of audit work is currently one <code>rm</code> away from gone.</p></div>
+      <span class="pill p-now">do first</span>
+    </div>
+
+    <div class="step">
+      <div class="n">2</div>
+      <div><h4>Finish the archiving model</h4><p>Answer the two questions left open on 07-19: what is the <b>purpose</b> of the Archive folder, and what <b>triggers</b> a move into it. The proposed unit (subteam's year branch) has preconditions already named — evergreen content must evacuate to Shared Resources first, and mid-season husks need a rule. Then republish to PublicPages.</p></div>
+      <span class="pill p-now">design</span>
+    </div>
+
+    <div class="step">
+      <div class="n">3</div>
+      <div><h4>Reconcile roster people (structure is fine)</h4><p><b>Argos/NERO leads look swapped</b> — Nero-2.0's recent commits are Jeff Kuo (roster: Argos lead) + Chris Pyle, Argos is all Wyatt, and roster-NERO-lead Dev Chechi is absent. Separately, roster's Telemetry Lead (Peyton McKee) has no 2026 firmware commits while the Embedded Software landing page names Jack Rubacha + Alex Houslanger. Confirm with the people, then update.</p></div>
+      <span class="pill p-repo">repo</span>
+    </div>
+
+    <div class="step">
+      <div class="n">4</div>
+      <div><h4>Add a Software Product branch to <code>ner-onboard</code></h4><p>The skill lists Software Product as a track, then routes everyone through code-track steps — env setup, "the track's main repo", <code>ner-repo-explainer</code>. A product joiner owns no repo and dead-ends. Surface should be FinishLine + roadmap + <code>#software_product</code>.</p></div>
+      <span class="pill p-repo">repo</span>
+    </div>
+
+    <div class="step">
+      <div class="n">5</div>
+      <div><h4>The two structural gaps in Confluence</h4><p><b>No current Application Software onboarding page exists</b> (the only artifact is a punt: "your applications software lead will guide you"). <b>No Software Product subteam page exists</b> — Layla's subteam is defined only inside the Charter; Chris pinged her for it back on 07-07. These are the highest-value NER-side fixes and neither is a rewrite — they're net-new pages.</p></div>
+      <span class="pill p-up">upstream</span>
+    </div>
+
+    <div class="step">
+      <div class="n">6</div>
+      <div><h4>Fix FinishLine's README</h4><p>Backup contact is <code>@Peyton-McKee</code> (now firmware telemetry), setup help points at the archived <code>#software_env-setup</code>, and line 15 links the frozen onboarding root <i>by ID</i> — which is the argument for rewriting that root in place rather than archive-and-replace. Update contact → Waverly Hassman, channel → <code>#tech-support</code>.</p></div>
+      <span class="pill p-up">upstream</span>
+    </div>
+
+    <div class="step">
+      <div class="n">7</div>
+      <div><h4>Ship ner-jarvis to real onboardees</h4><p>v0.1.0 is built and tested but <b>unpublished</b> — no npm package, binary lives only in <code>cli/dist/</code>. Distribution was never decided. PRD issue #1 is still open and labeled <code>ready-for-agent</code>. The org transfer of <code>bracyw/ner-jarvis</code> → Northeastern-Electric-Racing is a one-line <code>sources.json</code> change whenever you want it.</p></div>
+      <span class="pill p-ship">ship</span>
+    </div>
+  </section>
+
+  <footer>
+    Generated 2026-09-05 · sources: git log, docs/onboarding-staleness.md, cli test run, gh issue list · read-only recap, nothing modified
+  </footer>
+</div>
+<div class="tape"></div>
+</body>
+</html>

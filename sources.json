@@ -1,0 +1,10 @@
+{
+  "marketplaces": [
+    { "name": "claude-plugins-official", "source": "anthropics/claude-plugins-official" }
+  ],
+  "sources": [
+    { "name": "slack", "type": "plugin", "marketplace": "claude-plugins-official", "plugin": "slack" },
+    { "name": "atlassian", "type": "plugin", "marketplace": "claude-plugins-official", "plugin": "atlassian" }
+  ],
+  "workspace": { "repo": "https://github.com/bracyw/ner-jarvis.git", "dirName": "ner-jarvis" }
+}

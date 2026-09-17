@@ -1,0 +1,178 @@
+{
+  "asOf": "Fall 2026",
+  "source": "NER Record of Leadership (Fall 2026)",
+  "note": "Hierarchical org roster: area -> subteam (led by a head) -> leads. A role may have more than one lead. Some areas also list area-level `leads` not under a named subteam head. This is a DATED SNAPSHOT: authoritative for org STRUCTURE and nominal ownership, but reconcile people live (GitHub recent committers, Confluence roster) for recency, and surface conflicts with dates rather than trusting it blindly.",
+  "executiveBoard": [
+    { "role": "President", "name": "Riyana Roy" },
+    { "role": "Chief Mechanical", "name": "Ethan Herrell" },
+    { "role": "Chief Electrical", "name": "Max Meoli" },
+    { "role": "Chief Software", "name": "Chris Pyle" },
+    { "role": "Chief Finance", "name": "Andrew Berkovich" },
+    { "role": "Chief Marketing", "name": "Gus Rosen" },
+    { "role": "Chief Operations", "name": "Sam Ehlers" }
+  ],
+  "areas": [
+    {
+      "area": "Software",
+      "chief": "Chris Pyle",
+      "subteams": [
+        {
+          "name": "FinishLine",
+          "head": "Waverly Hassman",
+          "leads": [
+            { "role": "Tech Lead", "name": "Grace Theobald" },
+            { "role": "Tech Lead", "name": "Sarah Taylor" },
+            { "role": "Tech Lead", "name": "Stephanie Sayegh" },
+            { "role": "Tech Lead", "name": "Santiago Ordonez Merizalde" },
+            { "role": "Tech Lead", "name": "Kinsey Bellerose" }
+          ]
+        },
+        {
+          "name": "Software Product",
+          "head": "Layla Sheikh",
+          "leads": [
+            { "role": "Product Lead", "name": "Jiya Bhan" }
+          ]
+        },
+        {
+          "name": "Application Software",
+          "head": "Wyatt Bracy",
+          "leads": [
+            { "role": "Argos Lead", "name": "Jeff Kuo" },
+            { "role": "NERO Lead", "name": "Dev Chechi" }
+          ]
+        },
+        {
+          "name": "Firmware",
+          "head": "Caio DaSilva",
+          "leads": [
+            { "role": "Motor Controller Lead", "name": "Ethan Markow" },
+            { "role": "TSECU Lead", "name": "Surya Thoppae" },
+            { "role": "TSECU Lead", "name": "Blake Jackson" },
+            { "role": "VCU Lead", "name": "Alex Petry" },
+            { "role": "Embedded Validation Lead", "name": "Kaushik Mehta" },
+            { "role": "Controls Lead", "name": "Sakthi Sivakumar" },
+            { "role": "MSB Lead", "name": "Sara Sethi" },
+            { "role": "MSB Lead", "name": "Daniel Nakhooda" },
+            { "role": "Telemetry Lead", "name": "Jack Rubacha" },
+            { "role": "Telemetry Lead", "name": "Alex Houslanger" },
+            { "role": "Telemetry Lead", "name": "Peyton McKee" }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Mechanical",
+      "chief": "Ethan Herrell",
+      "subteams": [
+        {
+          "name": "Handling",
+          "head": "Nathan Yost",
+          "leads": [
+            { "role": "Steering Lead", "name": "Rose Cairo" },
+            { "role": "Suspension Lead", "name": "Claire Montegut" },
+            { "role": "Suspension Lead", "name": "Mack Speiser" },
+            { "role": "Outboard Rotational Assembly Lead", "name": "Ciaran Corcoran" }
+          ]
+        },
+        {
+          "name": "Structural",
+          "head": "Hugo Folwer",
+          "leads": [
+            { "role": "Pedals Lead", "name": "Christopher Russo" },
+            { "role": "Chassis Lead", "name": "Michael Cairo" },
+            { "role": "General Structural Lead", "name": "Zander Ritchey" },
+            { "role": "Seat/Harness Lead", "name": "Colleen Moraghan" }
+          ]
+        },
+        {
+          "name": "Aerodynamics",
+          "head": "Madeleine Behr",
+          "leads": [
+            { "role": "Rear Wing Lead", "name": "Calvin Seto" },
+            { "role": "Front Wing Lead", "name": "Nolan Leonhardt" },
+            { "role": "Bodywork Lead", "name": "Sarim Momin" },
+            { "role": "Underbody Lead", "name": "Lin Htet Aung" },
+            { "role": "CFD Lead", "name": "Zack Kasmaouy" }
+          ]
+        },
+        {
+          "name": "Powertrain",
+          "head": "Noah Crane",
+          "leads": [
+            { "role": "Segment Lead", "name": "Catrina Sarno" },
+            { "role": "Battery Box Lead", "name": "Saul Dreyer" },
+            { "role": "Transmission Lead", "name": "Adrian Vanegas" },
+            { "role": "Motor Cooling Lead", "name": "Jack Carlin-Nguyen" },
+            { "role": "Fusible Links Lead", "name": "Celine Li" },
+            { "role": "Electrical Integration Lead", "name": "Mustafa Saleh" },
+            { "role": "Performance Analysis", "name": "TBD" },
+            { "role": "Physics Modeling Lead", "name": "Ash Taylor" },
+            { "role": "Performance Analysis Lead", "name": "Taye Byun" },
+            { "role": "Software Implementation Lead", "name": "Raphael Bessin" },
+            { "role": "Sim Lead", "name": "Raphael Bessin" },
+            { "role": "Sim Lead", "name": "Nicholas Henry" }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Electrical",
+      "chief": "Max Meoli",
+      "subteams": [
+        {
+          "name": "Electronics",
+          "head": "John Treadwell",
+          "leads": [
+            { "role": "VCU & LFIU Lead", "name": "Zorian Passmore" },
+            { "role": "MSB Lead", "name": "Drew Bancroft" },
+            { "role": "Steering Wheel PCB Lead", "name": "Alex Houslanger" }
+          ]
+        },
+        {
+          "name": "Powertrain",
+          "head": "Pablo Sabater",
+          "leads": [
+            { "role": "BMS Lead", "name": "Zack Sakti" },
+            { "role": "HV Plate Lead", "name": "Parker Higgins" },
+            { "role": "Charger Cart/Harnessing Lead", "name": "Kendal Gross" },
+            { "role": "Flex PCBs Lead", "name": "Amogh Patil" },
+            { "role": "TSSI & Lightning PCB Lead", "name": "Kavi Bandara" }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Business",
+      "chief": null,
+      "subteams": [
+        {
+          "name": "Sponsorship",
+          "head": "Ryan Mullin",
+          "leads": [
+            { "role": "Fundraising Lead", "name": "Ryan Taylor" },
+            { "role": "Sponsorship Lead", "name": "Saanvi Talanki" }
+          ]
+        },
+        {
+          "name": "Treasury",
+          "head": "Luke Pfaffmann",
+          "leads": [
+            { "role": "Budgeting Lead", "name": "Jasper Pinkus" },
+            { "role": "Reimbursement Lead", "name": "Vedant Rajeev" }
+          ]
+        }
+      ],
+      "leads": [
+        { "role": "Photo Video Lead", "name": "Thomas" },
+        { "role": "Social Media Lead", "name": "Katy Silva" },
+        { "role": "Graphic Lead", "name": "Libby Foley" },
+        { "role": "FHE Lead", "name": "Xavier Kostecki" },
+        { "role": "FSAE Lead", "name": "Nicholas Bienenstein" },
+        { "role": "Process Management Lead", "name": "Will Laroche" },
+        { "role": "Club Operations Lead", "name": "Meg Biederman" },
+        { "role": "Club Operations Lead", "name": "Ananya Ravishankar" }
+      ]
+    }
+  ]
+}
