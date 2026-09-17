@@ -16,6 +16,12 @@ jobs:
   binaries:
     strategy:
       fail-fast: false
+      # Serialized on purpose. All five jobs upload to the SAME release, and
+      # softprops/action-gh-release races itself when they run concurrently:
+      # v0.1.0's first run lost three binaries to "Error creating asset temp dir"
+      # and one "Headers Timeout Error", even though every build succeeded.
+      # Five sequential ~1min builds is a cheap price for a complete release.
+      max-parallel: 1
       matrix:
         # Bun cross-compiles all targets from a single Linux runner.
         target:
