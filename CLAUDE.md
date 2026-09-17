@@ -173,13 +173,16 @@ clones the lean onboarding workspace and opens Claude Code in it. Built with Bun
   (npm) — so the current binary never parses an old version's records. Archived
   binaries are GC'd once a version's runs are all undone; a full `uninstall` clears
   the journal + archives (keeping the decision log).
-- **Workspace repo:** the CLI clones `bracyw/ner-jarvis` (mostly empty — just a
-  `CLAUDE.md`) into a directory the onboardee chooses, as the folder their Claude
-  Code runs in. Retargets to `Northeastern-Electric-Racing/ner-jarvis` after the
-  eventual org transfer (a `sources.json` URL change).
+- **Workspace repo:** the CLI clones `Northeastern-Electric-Racing/ner-jarvis-context`
+  (**public** — mostly empty, just a `CLAUDE.md`) into a directory the onboardee
+  chooses, as the folder their Claude Code runs in. It is kept public on purpose:
+  setup ends in a plain `git clone`, so a day-one member who is not in the org yet
+  would otherwise fail at the last step.
 - **Dev:** `bun install && bun run embed && bun test` (267 tests). See `README.md`.
 - **Three repos, don't conflate them:** this repo (the CLI + the `skills/`
-  source); `bracyw/ner-jarvis` (**public**, 3 files — the lean workspace the CLI
-  *clones onto a member's machine*, not a copy of this repo); and
-  `bracyw/ner-onboarding-agent` (**the former home** — v0.1.0's release assets
-  still live there, as does the retired Claude-Desktop ZIP pipeline).
+  source); `Northeastern-Electric-Racing/ner-jarvis-context` (**public**, 3 files —
+  the lean workspace the CLI *clones onto a member's machine*, not a copy of this
+  repo); and `bracyw/ner-onboarding-agent` (**the former home** — v0.1.0's release
+  assets still live there, as does the retired Claude-Desktop ZIP pipeline).
+  `bracyw/ner-jarvis` is the workspace's **predecessor**: deliberately left in place,
+  because v0.1.0's released binaries have that URL embedded and cannot be retargeted.

@@ -25,8 +25,8 @@ test("validatePayload rejects a malformed source", () => {
 
 test("loadPayload exposes the workspace repo + dirName", () => {
   const p = loadPayload();
-  expect(p.workspace?.repo).toContain("bracyw/ner-jarvis");
-  expect(p.workspace?.dirName).toBe("ner-jarvis");
+  expect(p.workspace?.repo).toContain("Northeastern-Electric-Racing/ner-jarvis-context");
+  expect(p.workspace?.dirName).toBe("ner-jarvis-context");
 });
 
 test("validatePayload rejects a workspace missing repo", () => {
