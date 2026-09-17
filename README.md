@@ -51,16 +51,16 @@ carrying a back-compatibility tax.
 
 ## Install
 
-> **Status (v0.1.0):** the binaries are released, but **this repo is private and the
-> npm package is unpublished** — so the only working install today needs repo access.
-> See "Distribution isn't open yet" below.
+> **Status (v0.1.0):** the binaries are released from this repo. It is still
+> **private** and the npm package is **unpublished**, so installing needs repo
+> access for now. See "Distribution isn't open yet" below.
 
 **Single binary** — needs `gh` authenticated as someone with access to this repo:
 
 ```sh
 case "$(uname -s)" in Darwin) os=darwin;; Linux) os=linux;; *) echo "unsupported"; exit 1;; esac
 case "$(uname -m)" in arm64|aarch64) arch=arm64;; x86_64|amd64) arch=x64;; *) echo "unsupported"; exit 1;; esac
-gh release download v0.1.0 --repo bracyw/ner-onboarding-agent \
+gh release download v0.1.0 --repo Northeastern-Electric-Racing/ner-jarvis-cli \
   --pattern "ner-jarvis-bun-$os-$arch" --output ner-jarvis --clobber
 chmod +x ner-jarvis && ./ner-jarvis
 ```
@@ -68,7 +68,7 @@ chmod +x ner-jarvis && ./ner-jarvis
 On **Windows** (PowerShell):
 
 ```powershell
-gh release download v0.1.0 --repo bracyw/ner-onboarding-agent `
+gh release download v0.1.0 --repo Northeastern-Electric-Racing/ner-jarvis-cli `
   --pattern "ner-jarvis-bun-windows-x64.exe" --output ner-jarvis.exe --clobber
 .\ner-jarvis.exe
 ```
@@ -87,7 +87,7 @@ A new member cannot install this today. Any one of these unblocks it:
 |---|---|
 | Set the `NPM_TOKEN` repo secret, re-run the release's `npm` job | `npx ner-jarvis@latest` works for everyone |
 | Make this repo public, or grant members read access | the `gh release download` above works |
-| Transfer to `Northeastern-Electric-Racing` | both, and drops the personal-account dependency |
+| ~~Transfer to `Northeastern-Electric-Racing`~~ | **done** — this repo is org-owned, and the workspace it clones (`ner-jarvis-context`) is public |
 
 Until then an unauthenticated download 404s, and so does a plain `curl` — a private
 release asset is not fetchable without a token.
