@@ -23,14 +23,15 @@ jobs:
       # Five sequential ~1min builds is a cheap price for a complete release.
       max-parallel: 1
       matrix:
-        # Bun cross-compiles all targets from a single Linux runner.
-        target:
-          - bun-darwin-arm64
-          - bun-darwin-x64
-          - bun-linux-x64
-          - bun-linux-arm64
-          - bun-windows-x64
-    runs-on: ubuntu-latest
+        # Bun cross-compiles every target, but the macOS ones build on a macOS
+        # runner so they can be re-signed with `codesign` (see "Ad-hoc sign").
+        include:
+          - { target: bun-darwin-arm64, runner: macos-latest }
+          - { target: bun-darwin-x64, runner: macos-latest }
+          - { target: bun-linux-x64, runner: ubuntu-latest }
+          - { target: bun-linux-arm64, runner: ubuntu-latest }
+          - { target: bun-windows-x64, runner: ubuntu-latest }
+    runs-on: ${{ matrix.runner }}
     permissions:
       contents: write
     steps:
@@ -64,6 +65,17 @@ jobs:
             exit 1
           fi
           echo "will upload: ${found[*]}"
+
+      # Bun's linker-applied ad-hoc signature is invalidated when the payload is
+      # appended, and Apple Silicon SIGKILLs a binary whose signature doesn't
+      # verify ("zsh: killed ./ner-jarvis") — v0.1.0's darwin-arm64 shipped that
+      # way. Re-sign after the build, then verify so a bad signature fails here.
+      - name: Ad-hoc sign (${{ matrix.target }})
+        if: startsWith(matrix.target, 'bun-darwin-')
+        run: |
+          bin=dist/ner-jarvis-${{ matrix.target }}
+          codesign --force --sign - "$bin"
+          codesign --verify --strict --verbose=2 "$bin"
 
       - name: Upload binary to release
         uses: softprops/action-gh-release@v2

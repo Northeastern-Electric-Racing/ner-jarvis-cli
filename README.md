@@ -60,7 +60,7 @@ release assets are public.
 case "$(uname -s)" in Darwin) os=darwin;; Linux) os=linux;; *) echo "unsupported"; exit 1;; esac
 case "$(uname -m)" in arm64|aarch64) arch=arm64;; x86_64|amd64) arch=x64;; *) echo "unsupported"; exit 1;; esac
 curl -fsSL -o ner-jarvis \
-  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.0/ner-jarvis-bun-$os-$arch"
+  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.1/ner-jarvis-bun-$os-$arch"
 chmod +x ner-jarvis && ./ner-jarvis
 ```
 
@@ -71,7 +71,7 @@ To keep it on your `PATH` instead of the current folder, swap the last line for
 
 ```powershell
 Invoke-WebRequest -OutFile ner-jarvis.exe `
-  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.0/ner-jarvis-bun-windows-x64.exe"
+  "https://github.com/Northeastern-Electric-Racing/ner-jarvis-cli/releases/download/v0.1.1/ner-jarvis-bun-windows-x64.exe"
 .\ner-jarvis.exe
 ```
 
