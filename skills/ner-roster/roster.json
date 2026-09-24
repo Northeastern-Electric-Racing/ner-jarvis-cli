@@ -2,6 +2,14 @@
   "asOf": "Fall 2026",
   "source": "NER Record of Leadership (Fall 2026)",
   "note": "Hierarchical org roster: area -> subteam (led by a head) -> leads. A role may have more than one lead. Some areas also list area-level `leads` not under a named subteam head. This is a DATED SNAPSHOT: authoritative for org STRUCTURE and nominal ownership, but reconcile people live (GitHub recent committers, Confluence roster) for recency, and surface conflicts with dates rather than trusting it blindly.",
+  "channels": {
+    "note": "Public Slack channels for routing questions. Verified 2026-09-23 by reading live channel activity, not by channel name \u2014 #github_argos looks like the Argos channel but is a dead webhook feed with no discussion. `systems` overrides `default`.",
+    "default": "#tech-support",
+    "systems": {
+      "Argos": "#s_embedded-software",
+      "FinishLine": "#software_finishline"
+    }
+  },
   "executiveBoard": [
     { "role": "President", "name": "Riyana Roy" },
     { "role": "Chief Mechanical", "name": "Ethan Herrell" },

@@ -19,6 +19,11 @@ areas[]
 ```
 
 - **A role can have more than one lead** (e.g. two TSECU Leads) — that's expected.
+- `channels` maps a system to the public Slack channel where it is **actually
+  discussed**, with a `default` fallback. Verified by reading live channel
+  activity, never inferred from the name — `#github_argos` reads like the Argos
+  channel but is a dead webhook feed; real Argos traffic is in
+  `#s_embedded-software`.
 - Stamped with `asOf` ("Fall 2026"). It is the **grounding truth for org
   structure and nominal ownership**, but it is a *dated snapshot*: skills should
   still reconcile people live (GitHub recent committers, Confluence roster) for

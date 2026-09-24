@@ -13,6 +13,7 @@ import {
   systemOwners,
   systemName,
   chiefOf,
+  channelFor,
   type RosterDoc,
 } from "./roster";
 
@@ -113,4 +114,16 @@ test("chiefOf reads the area chief from the doc", () => {
   expect(chiefOf(DOC, "Software")).toBe("Chris Pyle");
   expect(chiefOf(DOC, "Business")).toBeUndefined(); // chief: null
   expect(chiefOf(DOC, "Nope")).toBeUndefined();
+});
+
+test("channelFor resolves a system's channel, else the default", () => {
+  const doc: RosterDoc = {
+    channels: { default: "#tech-support", systems: { Argos: "#s_embedded-software" } },
+  };
+  expect(channelFor(doc, "Argos")).toBe("#s_embedded-software");
+  expect(channelFor(doc, "argos")).toBe("#s_embedded-software");
+  expect(channelFor(doc, "Argos Lead")).toBe("#s_embedded-software");
+  expect(channelFor(doc, "Cerberus")).toBe("#tech-support");
+  expect(channelFor(doc)).toBe("#tech-support");
+  expect(channelFor({})).toBeUndefined();
 });

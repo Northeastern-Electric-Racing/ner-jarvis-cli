@@ -29,10 +29,18 @@ export interface RosterArea {
   subteams?: RosterSubteam[];
   leads?: RosterLead[];
 }
+export interface RosterChannels {
+  note?: string;
+  /** Fallback channel when no system-specific one is listed. */
+  default?: string;
+  /** System name (e.g. "Argos") -> the channel where it is actually discussed. */
+  systems?: Record<string, string>;
+}
 export interface RosterDoc {
   asOf?: string;
   source?: string;
   note?: string;
+  channels?: RosterChannels;
   executiveBoard?: RosterLead[];
   areas?: RosterArea[];
 }
@@ -176,4 +184,22 @@ export function systemOwners(rows: RosterRow[], system: string): RosterRow[] {
 /** An area's chief (from the doc; the same person often also sits on the exec board). */
 export function chiefOf(doc: RosterDoc, area: string): string | undefined {
   return (doc.areas ?? []).find((a) => eq(a.area, area))?.chief ?? undefined;
+}
+
+/**
+ * Where to ask about a system. Falls back to `channels.default` when the system
+ * has no entry. Matching is case-insensitive and substring-based, so "argos"
+ * and "Argos Lead" both resolve.
+ *
+ * Channels here are verified by reading live activity, not inferred from the
+ * channel name: `#github_argos` reads like the Argos channel but carries no
+ * discussion at all.
+ */
+export function channelFor(doc: RosterDoc, system?: string): string | undefined {
+  const map = doc.channels?.systems ?? {};
+  if (system) {
+    const hit = Object.keys(map).find((k) => has(k, system) || has(system, k));
+    if (hit) return map[hit];
+  }
+  return doc.channels?.default;
 }
